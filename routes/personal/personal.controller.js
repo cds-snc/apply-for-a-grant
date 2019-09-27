@@ -1,5 +1,5 @@
 const path = require('path')
-const { routeUtils } = require('./../../utils')
+const { routeUtils, getClientJs } = require('./../../utils')
 const { Schema } = require('./schema.js')
 
 module.exports = app => {
@@ -10,8 +10,9 @@ module.exports = app => {
 
   app
     .get(route.path, (req, res) => {
-      const jsFiles = ['js/file-input.js']
-      res.render(name, routeUtils.getViewData(req, jsFiles))
+      const jsPath = getClientJs(req, name)
+      const jsFiles = jsPath ? [jsPath, 'js/file-input.js'] : false
+      res.render(name, routeUtils.getViewData(req, { jsFiles: jsFiles }))
     })
     .post(
       route.path,

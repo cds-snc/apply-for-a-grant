@@ -9,15 +9,18 @@
     "node": ">=10"
   },
   "scripts": {
+    "build": "webpack --mode=production",
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "lint": "node_modules/eslint/bin/eslint.js config routes bin/www app.js",
     "prettier": "prettier --write '**/*.{ts,js,css,html}'",
-    "start": "NODE_ENV=production node ./bin/www",
+    "start": "npm run build && NODE_ENV=production node ./bin/www",
     "test": "node node_modules/jest/bin/jest.js --coverage",
     "test:watch": "node node_modules/jest/bin/jest.js --watch",
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@cds-snc/webpack-starter": "cds-snc/webpack-starter",
+    "accessible-autocomplete": "^2.0.0",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "cookie-session": "^1.3.3",

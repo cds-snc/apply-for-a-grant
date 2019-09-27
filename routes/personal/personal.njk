@@ -20,6 +20,9 @@
         {{ textArea('address', 'form.address', { hint: 'form.address.desc' }) }}
         
         {{ fileInput('form.upload', null, {name: "myfile", id: "myfile"} ) }}
+
+        <label for="grant-type">Which grant are you applying for?</label>
+        <div id="grant-type-container"></div>
         
         {{ radioButtons('send_notifications', { '1':'Yes','2':'No'}, data.send_notifications, 'form.send_notifications', errors) }}
 
