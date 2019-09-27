@@ -39,7 +39,7 @@ const getDomain = req => {
 }
 
 const getHostProtocol = req => {
-  if (req && req.secure) {
+  if ((req && req.secure) || process.env.NODE_ENV == 'production') {
     return 'https'
   }
 
