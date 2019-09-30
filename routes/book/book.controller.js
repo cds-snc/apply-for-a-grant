@@ -1,3 +1,15 @@
+
+/*
+
+@todo
+
+- pull saved info from database i.e. email or sms
+ --- pull based on id + XXXXX in link sent from previous step
+- write date to hidden input
+- send confirmation
+*/
+
+
 const path = require('path')
 const { routeUtils, getClientJs } = require('./../../utils')
 const { Schema } = require('./schema.js')
@@ -7,6 +19,7 @@ module.exports = app => {
   const route = routeUtils.getRouteByName(name)
 
   routeUtils.addViewPath(app, path.join(__dirname, './'))
+
 
   app
     .get(route.path, (req, res) => {
