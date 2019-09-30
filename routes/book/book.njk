@@ -95,30 +95,41 @@
     </section>
 
     <div>
-    <div class="selected-days-box visually-hidden">
-      <div class="triangle"></div>
-      <div class="time-select">
-        <ul>
-          <li>Please select a time </li>
-          <li>
-            <select>
-              <option>9:00am</option>
-              <option>9:30am</option>
-              <option>10:00am</option>
-              <option>10:30am</option>
-              <option>11:00am</option>
-              <option>11:30am</option>
-            </select>
-          </li>
-        </ul>
+      <div class="selected-days-box visually-hidden">
+        <div class="triangle"></div>
+        <div class="time-select">
+          <ul>
+            <li>Please select a time </li>
+            <li>
+              <select id="time">
+                <option>9:00am</option>
+                <option>9:30am</option>
+                <option>10:00am</option>
+                <option>10:30am</option>
+                <option>11:00am</option>
+                <option>11:30am</option>
+              </select>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
     </div>
 
   </div>
 
   <form method="post">
+    <input id="date-input" name="date" type="hidden" value="">
+    <input id="time-input" name="time" type="hidden" value="9:00am">
     {{ formButtons() }}
   </form>
+
+  <script>
+    const timeSelect = document.getElementById("time")
+    const timeInput = document.getElementById("time-input")
+
+    timeSelect.addEventListener('change', (el) => {
+      timeInput.value = el.currentTarget.value;
+    })
+  </script>
 
 {% endblock %}
