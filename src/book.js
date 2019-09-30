@@ -25,28 +25,27 @@ const announce = content => {
   }, 1000)
 }
 
-const selectDate = (date) => {
-
-  const selection = calendarSection.querySelector('[aria-pressed="true"]');
+const selectDate = date => {
+  const selection = calendarSection.querySelector('[aria-pressed="true"]')
 
   if (selection) {
-    selection.setAttribute('aria-pressed', 'false');
-    selection.setAttribute('tabindex', '-1');
+    selection.setAttribute('aria-pressed', 'false')
+    selection.setAttribute('tabindex', '-1')
   }
 
-  date.setAttribute('aria-pressed', 'true');
-  date.removeAttribute('tabindex');
+  date.setAttribute('aria-pressed', 'true')
+  date.removeAttribute('tabindex')
 
-  selected = dayjs.unix(date.getAttribute('data-timestamp'));
+  selected = dayjs.unix(date.getAttribute('data-timestamp'))
 
-  announce(`selected ${date.getAttribute('aria-label')}`);
-  
-  showTimeSelectBox();
-};
+  announce(`selected ${date.getAttribute('aria-label')}`)
 
-const showTimeSelectBox = () =>{
+  showTimeSelectBox()
+}
+
+const showTimeSelectBox = () => {
   const timeBox = document.querySelector('.selected-days-box')
-  timeBox.classList.remove("visually-hidden")
+  timeBox.classList.remove('visually-hidden')
 }
 
 const showDialog = () => {
@@ -71,7 +70,6 @@ const closeDialog = () => {
   calendarHelp.focus()
 }
 
-
 const onDialogKeydown = event => {
   const target = event.target
 
@@ -94,18 +92,17 @@ const onDialogKeydown = event => {
   }
 }
 
-
 const isWeekend = day => {
   return day.$W === 0 || day.$W === 6
 }
 
-const isBlockedDay = (day, month) => {
-  return false
+const isBlockedDay = (day, month, today) => {
+  return day.isBefore(today)
 }
 
 const getDateTemplate = (day, month, today) => {
   const isDisabled =
-    day.$M !== month.$M || isWeekend(day) || isBlockedDay(day, month)
+    day.$M !== month.$M || isWeekend(day) || isBlockedDay(day, month, today)
   const isCurrent = day.isSame(today)
   const isSelected = day.isSame(selected)
 
@@ -327,7 +324,6 @@ const updateUI = () => {
 
   renderDates(getDisplayedMonth())
 }
-
 
 const renderDates = date => {
   let start = dayjs(date)

@@ -18,7 +18,6 @@ module.exports = app => {
         year: '2019',
       })
 
-      console.log(data)
       res.render(name, data)
     })
     .post(route.path, [
