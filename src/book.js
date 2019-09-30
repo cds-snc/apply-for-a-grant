@@ -40,7 +40,14 @@ const selectDate = (date) => {
   selected = dayjs.unix(date.getAttribute('data-timestamp'));
 
   announce(`selected ${date.getAttribute('aria-label')}`);
+  
+  showTimeSelectBox();
 };
+
+const showTimeSelectBox = () =>{
+  const timeBox = document.querySelector('.selected-days-box')
+  timeBox.classList.remove("visually-hidden")
+}
 
 const showDialog = () => {
   const dialog = document.getElementById('Calendar-help-dialog')
