@@ -34,7 +34,7 @@ test('can catch errors using default middleware', async () => {
     },
   }
 
-  const options = { schema: Schema, name: 'personal' }
+  const options = { schema: Schema, name: 'step-1' }
 
   // get an array of middleWare
   const middleWare = getDefaultMiddleware(options)

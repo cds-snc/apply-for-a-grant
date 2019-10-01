@@ -11,19 +11,19 @@ const {
 
 const testRoutes = [
   { name: 'start', path: '/start' },
-  { name: 'personal', path: '/personal' },
+  { name: 'step-1', path: '/step-1' },
   { name: 'confirmation', path: '/confirmation' },
 ]
 
 describe('Routes', () => {
   test('finds route index by name', () => {
-    const obj = getRouteWithIndexByName('personal', testRoutes)
+    const obj = getRouteWithIndexByName('step-1', testRoutes)
     expect(obj.index).toEqual(1)
   })
 
   test('finds route path by name', () => {
-    const obj = getRouteByName('personal', testRoutes)
-    expect(obj.path).toEqual('/personal')
+    const obj = getRouteByName('step-1', testRoutes)
+    expect(obj.path).toEqual('/step-1')
   })
 
   test("return false for previous route that doesn't exist", () => {
@@ -32,7 +32,7 @@ describe('Routes', () => {
   })
 
   test('finds previous route path by name', () => {
-    const obj = getPreviousRoute('personal', testRoutes)
+    const obj = getPreviousRoute('step-1', testRoutes)
     expect(obj.path).toEqual('/start')
   })
 
@@ -42,7 +42,7 @@ describe('Routes', () => {
   })
 
   test('finds next route path by name', () => {
-    const obj = getNextRoute('personal', testRoutes)
+    const obj = getNextRoute('step-1', testRoutes)
     expect(obj.path).toEqual('/confirmation')
   })
 })
