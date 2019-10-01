@@ -15,12 +15,10 @@
         
         {{ textInput('email', 'form.email') }}
 
-        {{ textInput('expiry', 'form.expiry', { hint: 'form.expiry.desc' }) }}
+        {{ textInput('phone_number', 'form.phone_number', { hint: 'form.phone_number.desc' }) }}
         
         {{ textArea('address', 'form.address', { hint: 'form.address.desc' }) }}
         
-        {{ fileInput('form.upload', null, {name: "myfile", id: "myfile"} ) }}
-
         <label for="grant-type">Which grant are you applying for?</label>
         <div id="grant-type-container"></div>
         
