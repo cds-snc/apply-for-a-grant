@@ -15,7 +15,6 @@ const saveToDb = (req, res, next) => {
     notify_type: req.body.notify_type,
   })
   entry.save()
-  console.log("saved to db")  
   return next()
 }
 
