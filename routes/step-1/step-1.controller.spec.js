@@ -10,15 +10,15 @@ function extractCsrfToken(res) {
   return $('[name=_csrf]').val();
 }
 
-test('Can send get request personal route ', async () => {
-  const route = getRouteByName('personal')
+test('Can send get request step-1 route ', async () => {
+  const route = getRouteByName('step-1')
   const response = await request(app).get(route.path)
   expect(response.statusCode).toBe(200)
 })
 
 // @todo test sending a form request
-test('Can send post request personal route ', async () => {
-  const route = getRouteByName('personal')
+test('Can send post request step-1 route ', async () => {
+  const route = getRouteByName('step-1')
 
   // to test form with csrf token, need a session, and a token from a get request
   const testSession = session(app);
@@ -36,7 +36,7 @@ jest.mock('../../utils/flash.message.helpers', () => ({
 }))
 
 test('Display errors on the page', async () => {
-  const route = getRouteByName('personal')
+  const route = getRouteByName('step-1')
   const response = await request(app).get(route.path)
   expect(response.statusCode).toBe(200)
   expect(response.text).toContain('caught this error')
