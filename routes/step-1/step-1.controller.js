@@ -10,9 +10,7 @@ module.exports = app => {
 
   app
     .get(route.path, (req, res) => {
-      const jsPath = getClientJs(req, name)
-      const jsFiles = jsPath ? [jsPath, 'js/file-input.js'] : false
-      res.render(name, routeUtils.getViewData(req, { jsFiles: jsFiles }))
+      res.render(name, routeUtils.getViewData(req))
     })
     .post(
       route.path,
