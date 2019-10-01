@@ -52,5 +52,8 @@
   "innovation_grant": "Federal Innovation Grant",
   "low_income_grant": "Low Income Stability Grant",
   "french_grant": "French First Grant",
-  "other_grant": "Other"
+  "other_grant": "Other",
+  "errors.notify_type.valid": "Please select a notification type.",
+  "errors.phone_number_sms": "Please provide a phone number to recieve SMS notifications.",
+  "form.notify_type": "form.notify_type"
 }

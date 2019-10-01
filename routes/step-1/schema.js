@@ -1,7 +1,5 @@
 /* istanbul ignore file */
 
-const isValidDate = require('../../utils/').isValidDate
-
 const Schema = {
   email: {
     isLength: {
@@ -9,27 +7,23 @@ const Schema = {
       options: { min: 3, max: 200 },
     },
   },
-  send_notifications: {
-    isIn: {
-      errorMessage: 'errors.send_notifications.valid',
-      options: [['Yes', 'No']],
+  phone_number: {
+    custom: {
+      options: (value, { req }) => {
+        const phoneNumber = req.body.phone_number
+        const notifyType = req.body.notify_type
+        if (notifyType === "SMS" && !phoneNumber) {
+          return false
+        } 
+        return true
+      },
+      errorMessage: 'errors.phone_number_sms',
     },
   },
   notify_type: {
-    custom: {
-      options: (value, { req }) => {
-        const sendNotifications = req.body.send_notifications
-        if (sendNotifications && sendNotifications === 'Yes') {
-          if (typeof value === 'undefined') {
-            return false
-          }
-        } else {
-          req.body.notify_type = undefined
-        }
-
-        return true
-      },
-      errorMessage: 'errors.notify_type',
+    isIn: {
+      errorMessage: 'errors.notify_type.valid',
+      options: [['SMS', 'Email']],
     },
   },
 }
