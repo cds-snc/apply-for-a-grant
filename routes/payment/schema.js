@@ -22,7 +22,7 @@ const Schema = {
   expiry: {
     isLength: {
       errorMessage: 'errors.expiry.length',
-      options: { min: 6, max: 7 },
+      options: { min: 7, max: 7 },
     },
   },
 }

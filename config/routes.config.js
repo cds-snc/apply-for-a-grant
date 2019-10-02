@@ -2,10 +2,9 @@
 const routes = [
   { name: 'start', path: '/start' },
   { name: 'step-1', path: '/step-1' },
-  { name: 'payment', path: '/payment' },
   { name: 'book', path: '/book-appointment' },
+  { name: 'payment', path: '/payment' },
   { name: 'confirmation', path: '/confirmation' },
-  { name: 'test_db', path: '/db' },
 ]
 
 // note: you can define and export a custom configRoutes function here

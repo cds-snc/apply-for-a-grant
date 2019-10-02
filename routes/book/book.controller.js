@@ -1,4 +1,3 @@
-
 /*
 
 @todo
@@ -8,7 +7,6 @@
 - write date to hidden input
 - send confirmation
 */
-
 
 const path = require('path')
 const { routeUtils, getClientJs } = require('./../../utils')
@@ -20,18 +18,22 @@ module.exports = app => {
 
   routeUtils.addViewPath(app, path.join(__dirname, './'))
 
+  const getData = (req, name) => {
+    const jsPath = getClientJs(req, name)
+    const jsFiles = jsPath ? [jsPath] : false
+    const data = routeUtils.getViewData(req, {
+      jsFiles: jsFiles,
+      month: 'October',
+      year: '2019',
+    })
+
+    return data
+  }
 
   app
     .get(route.path, (req, res) => {
-      const jsPath = getClientJs(req, name)
-      const jsFiles = jsPath ? [jsPath] : false
-      const data = routeUtils.getViewData(req, {
-        jsFiles: jsFiles,
-        month: 'October',
-        year: '2019',
-      })
-
-      res.render(name, data)
+      global.getData = getData
+      res.render(name, getData(req, name))
     })
     .post(route.path, [
       ...routeUtils.getDefaultMiddleware({ schema: Schema, name: name }),
