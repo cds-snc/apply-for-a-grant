@@ -64,5 +64,12 @@
   "errors.card_type.valid": "errors.card_type.valid",
   "Expected string but received a undefined.": "Expected string but received a undefined.",
   "errors.ccv.length": "errors.ccv.length",
-  "errors.expiry.length": "errors.expiry.length"
+  "errors.expiry.length": "errors.expiry.length",
+  "form.card_type": "form.card_type",
+  "Visa": "Visa",
+  "MasterCard": "MasterCard",
+  "form.card_number": "Card Number",
+  "form.ccv": "CCV",
+  "errors.card_number.valid": "errors.card_number.valid",
+  "form.card_number.desc": "e.g. 4990 5611 4232 5534"
 }

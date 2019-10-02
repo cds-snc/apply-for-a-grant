@@ -11,7 +11,13 @@
 
         <form method="post">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-           
+
+            {{ radioButtons('card_type', { '1':'Visa','2':'MasterCard'}, data.card_type, 'form.card_type', errors) }}
+
+            {{ textInput('card_number', 'form.card_number', { class: "w-3-4", hint: 'form.card_number.desc' }) }}
+            {{ textInput('ccv', 'form.ccv', { class: "w-3-4" }) }}
+            {{ textInput('expiry', 'form.expiry', { class: "w-3-4" }) }}
+
             {{ formButtons() }}
         </form>
     </div>
