@@ -1,5 +1,8 @@
 const path = require('path')
 const { routeUtils } = require('./../../utils')
+const { doRedirect } = require('./../../utils/route.helpers')
+const { checkErrors } = require('./../../utils/validate.helpers')
+const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
 
@@ -9,7 +12,7 @@ const saveToDb = (req, res, next) => {
     id: randomId,
     fullname: req.body.fullname,
     email: req.body.email,
-    phone_number: req.body.email,
+    phone_number: req.body.phone_number,
     address: req.body.address,
     grant_type: req.body.grant_type,
     notify_type: req.body.notify_type,
@@ -31,8 +34,10 @@ module.exports = app => {
     .post(
       route.path,
       [
+        checkSchema(Schema),
+        checkErrors(name),
         saveToDb,
-        routeUtils.getDefaultMiddleware({ schema: Schema, name: name }),
+        doRedirect(name),
       ],
     )
 }
