@@ -1,5 +1,3 @@
-const isCreditCard = require('validator/lib/isCreditCard').default
-
 const Schema = {
   card_type: {
     isIn: {
