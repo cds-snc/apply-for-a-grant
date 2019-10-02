@@ -56,5 +56,7 @@
   "errors.notify_type.valid": "Please select a notification type.",
   "errors.phone_number_sms": "Please provide a phone number to recieve SMS notifications.",
   "form.notify_type": "How would you like to be notified?",
-  "caught this error": "caught this error"
+  "caught this error": "caught this error",
+  "errors.firstname.length": "errors.firstname.length",
+  "errors.date.length": "errors.date.length"
 }

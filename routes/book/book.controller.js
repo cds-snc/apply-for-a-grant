@@ -27,7 +27,7 @@ module.exports = app => {
       const jsFiles = jsPath ? [jsPath] : false
       const data = routeUtils.getViewData(req, {
         jsFiles: jsFiles,
-        month: 'September',
+        month: 'October',
         year: '2019',
       })
 
