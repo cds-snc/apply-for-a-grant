@@ -13,7 +13,24 @@ const sendNotification = async (params = { email, templateId, options }) => {
   }
 
   try {
-    const response = await notifyClient.sendEmail(templateId, email, options);
+    const response = notifyClient.sendEmail(templateId, email, options);
+    return response.body;
+  } catch (err) {
+    console.log(err.message);
+    return false;
+  }
+};
+
+const sendSMSNotification = async (params = { phone, templateId, options }) => {
+  const { templateId, phone, options } = params;
+
+  if (!templateId || !phone) {
+    console.log("no template ID or phone was passed");
+    return false;
+  }
+
+  try {
+    const response = notifyClient.sendSms(templateId, phone, options);
     return response.body;
   } catch (err) {
     console.log(err.message);
@@ -23,5 +40,6 @@ const sendNotification = async (params = { email, templateId, options }) => {
 
 module.exports = {
   sendNotification,
-  notifyClient
+  notifyClient,
+  sendSMSNotification
 };
