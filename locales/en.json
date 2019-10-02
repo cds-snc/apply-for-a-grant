@@ -58,5 +58,11 @@
   "form.notify_type": "How would you like to be notified?",
   "caught this error": "caught this error",
   "errors.firstname.length": "errors.firstname.length",
-  "errors.date.length": "errors.date.length"
+  "errors.date.length": "errors.date.length",
+  "payment.title": "payment.title",
+  "payment.intro": "payment.intro",
+  "errors.card_type.valid": "errors.card_type.valid",
+  "Expected string but received a undefined.": "Expected string but received a undefined.",
+  "errors.ccv.length": "errors.ccv.length",
+  "errors.expiry.length": "errors.expiry.length"
 }

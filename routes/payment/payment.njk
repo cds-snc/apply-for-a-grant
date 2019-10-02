@@ -1,0 +1,19 @@
+{% extends "base.njk" %}
+
+{% block content %}
+
+    <h1>{{ __('payment.title') }}</h1>
+
+    <div>
+        <p>
+            {{ __('payment.intro') }}
+        </p>
+
+        <form method="post">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+           
+            {{ formButtons() }}
+        </form>
+    </div>
+
+{% endblock %}
