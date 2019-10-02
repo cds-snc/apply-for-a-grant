@@ -4,7 +4,11 @@ const { getRouteByName } = require('../../utils/route.helpers')
 
 const mockFn = jest
   .fn(req => {
-    return { fullname: 'My full name' }
+    return { 
+      fullname: 'My full name',
+      email: "test@test.com",
+      notify_type: "Email",
+    }
   })
   .mockImplementationOnce(req => {
     return {}

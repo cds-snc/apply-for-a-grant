@@ -78,7 +78,7 @@ const checkErrors = template => {
 /**
 * @param options template
  {
-        template: "personal",
+        template: "step-1",
         errors: {
           fullname: {
             value: "",
@@ -156,8 +156,8 @@ const checkErrorsJSON = (req, res, next) => {
 /**
  * @param {Object} obj the obj we're passing, most often 'data'
  * @param {String} key the key we're trying to access, passed as a string, not including the obj ref itself
- * ex. if we're trying to get to data.personal.maritalStatus
- * pass as hasData(data, 'personal.maritalStatus')
+ * ex. if we're trying to get to data.step-1.maritalStatus
+ * pass as hasData(data, 'step-1.maritalStatus')
  */
 const hasData = (obj = {}, key = '') => {
   return key.split('.').every(x => {

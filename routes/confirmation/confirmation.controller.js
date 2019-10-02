@@ -17,11 +17,11 @@ module.exports = app => {
     // ⚠️ experimental
     // validate data from previous step
     // see if we should be allowed to reach this step
-    const { Schema } = require('../personal/schema.js')
+    const { Schema } = require('../step-1/schema.js')
     const result = await validateRouteData(req, Schema)
     if (!result.status) {
       setFlashMessageContent(req, result.errors)
-      return res.redirect(getRouteByName('personal').path)
+      return res.redirect(getRouteByName('step-1').path)
     }
 
     res.render(name, getViewData(req))

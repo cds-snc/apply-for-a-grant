@@ -1,0 +1,29 @@
+{% extends "base.njk" %}
+
+{% block content %}
+
+    <h1>{{ __('step-1.title') }}</h1>
+
+    <div>
+        <p>{{ __('step-1.intro') }}</p>
+    </div>
+    <form method="post">
+
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+        {{ textInput('fullname', 'form.fullname', { class: "w-3-4" }) }}
+        
+        {{ textInput('email', 'form.email') }}
+
+        {{ textInput('phone_number', 'form.phone_number', { hint: 'form.phone_number.desc' }) }}
+        
+        {{ textArea('address', 'form.address', { hint: 'form.address.desc' }) }}
+        
+        {{ radioButtons('grant_type', { '1':'innovation_grant','2':'low_income_grant', '3': 'french_grant', '4': 'other_grant'}, data.grant_type, 'form.grant_type', errors) }}
+        
+        {{ radioButtons('notify_type', {'1':'SMS','2':'Email'}, data.notify_type, 'form.notify_type', errors) }}
+
+        {{ formButtons() }}
+    </form>
+
+{% endblock %}
