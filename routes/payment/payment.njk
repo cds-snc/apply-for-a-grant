@@ -18,7 +18,11 @@
             {{ textInput('ccv', 'form.ccv', { class: "w-3-4", hint: 'form.ccv.desc' }) }}
             {{ textInput('expiry', 'form.expiry', { class: "w-3-4", hint: 'form.expiry.desc' }) }}
 
-            {{ formButtons() }}
+            <p>
+                {{ __('payment.confirm') }}
+            </p>
+
+            {{ formButtons(submitButtonText = 'Pay and Continue') }}
         </form>
     </div>
 

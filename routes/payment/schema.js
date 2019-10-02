@@ -8,10 +8,8 @@ const Schema = {
     },
   },
   card_number: {
-    custom: {
-      options: (value, { req }) => {
-        return isCreditCard(value)
-      },
+    isLength: {
+      options: {min:16, max: 19},
       errorMessage: 'errors.card_number.valid',
     },
   },
@@ -24,7 +22,7 @@ const Schema = {
   expiry: {
     isLength: {
       errorMessage: 'errors.expiry.length',
-      options: { min: 5, max: 5 },
+      options: { min: 6, max: 7 },
     },
   },
 }

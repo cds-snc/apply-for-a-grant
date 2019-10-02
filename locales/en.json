@@ -61,6 +61,7 @@
   "errors.date.length": "errors.date.length",
   "payment.title": "Processing fee",
   "payment.intro": "There is a $5 processing fee.",
+  "payment.confirm": "The button below will authorize payment. You will receive a receipt for your payment through SMS or email based on your selection on the previous page.",
   "errors.card_type.valid": "Please select a card type",
   "Expected string but received a undefined.": "Expected string but received a undefined.",
   "errors.ccv.length": "Please enter a valid CCV",
@@ -72,5 +73,6 @@
   "form.ccv": "CCV",
   "errors.card_number.valid": "Please enter a valid card number",
   "form.card_number.desc": "e.g. 4990 5611 4232 5534",
-  "form.ccv.desc": "e.g. 123"
+  "form.ccv.desc": "e.g. 123",
+  "Pay and Continue": "Pay and Continue"
 }
