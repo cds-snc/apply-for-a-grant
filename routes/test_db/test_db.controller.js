@@ -1,6 +1,5 @@
 const path = require('path')
 const { routeUtils } = require('./../../utils')
-const dynamoose = require('dynamoose')
 const { Submission } = require('../../db/model')
 
 module.exports = app => {
