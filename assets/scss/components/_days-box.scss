@@ -1,0 +1,37 @@
+
+.date-time{
+    @include md {
+       display:flex;
+    }
+}
+
+.selected-days-box{
+    display:inline-flex;
+    @include md {
+        .triangle {
+            width: 0px;
+            height: 0px;
+            margin-top: 1.3rem;
+            margin-left: 1rem;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 25px solid rgb(219, 219, 219);
+        }
+    }
+
+    .time-select {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        width: 20rem;
+        
+        @include md {
+            margin-top: 0;
+            background: rgb(219, 219, 219);
+            padding: 1.3rem 1.3rem 0px;
+        }
+    
+        ul{
+            list-style: none;
+        }
+    }
+}

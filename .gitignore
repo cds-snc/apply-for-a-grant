@@ -68,6 +68,9 @@ typings/
 public/styles.css
 public/styles.css*
 
+public/js/dist/*
+
+
 .DS_Store
 credentials
 cdk.out
