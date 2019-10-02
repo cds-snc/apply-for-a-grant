@@ -15,7 +15,6 @@ const calendarSection = document.getElementById('Calendar-dates')
 const calendarHelp = document.getElementById('Calendar-help-trigger')
 const calendarUpdates = document.getElementById('Calendar-updates')
 let selected = ''
-let selectedDates = []
 
 const announce = content => {
   setText(calendarUpdates, content)
@@ -40,6 +39,7 @@ const selectDate = date => {
 
   announce(`selected ${date.getAttribute('aria-label')}`)
 
+  setDateInput(date.getAttribute('data-timestamp'))
   showTimeSelectBox()
 }
 

@@ -5,7 +5,6 @@ module.exports = (env, argv) => {
 
   return (config = getConfig({
     entry: {
-      personal: './src/personal.js',
       book: './src/book.js',
     },
     output: {

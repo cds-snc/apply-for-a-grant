@@ -66,27 +66,27 @@
         <ul>
           <li>
             <kbd>LEFT</kbd>/
-          <kbd>RIGHT</kbd>
-          to move day to day.</li>
+            <kbd>RIGHT</kbd>
+            to move day to day.</li>
           <li>
             <kbd>UP</kbd>/
-          <kbd>DOWN</kbd>
-          to move week to week.</li>
+            <kbd>DOWN</kbd>
+            to move week to week.</li>
           <li>
             <kbd>HOME</kbd>
-          to move to the first day of the month.</li>
+            to move to the first day of the month.</li>
           <li>
             <kbd>END</kbd>
-          to move to the last day of the month.</li>
+            to move to the last day of the month.</li>
           <li>
             <kbd>PAGE UP</kbd>
-          to move to the same day in the previous month.</li>
+            to move to the same day in the previous month.</li>
           <li>
             <kbd>PAGE DOWN</kbd>
-          to move to the same day in the next month.</li>
+            to move to the same day in the next month.</li>
           <li>
             <kbd>SPACE</kbd>
-          to select a date.</li>
+            to select a date.</li>
         </ul>
         <button id="Calendar-help-close" class="Calendar-help-close" type="button">Got it!</button>
       </div>
@@ -99,7 +99,8 @@
         <div class="triangle"></div>
         <div class="time-select">
           <ul>
-            <li>Please select a time </li>
+            <li>Please select a time
+            </li>
             <li>
               <select id="time">
                 <option>9:00am</option>
@@ -127,6 +128,11 @@
   <script>
     const timeSelect = document.getElementById("time")
     const timeInput = document.getElementById("time-input")
+    const dateInput = document.getElementById("date-input")
+
+    const setDateInput = (date) => {
+      dateInput.value = date;
+    }
 
     timeSelect.addEventListener('change', (el) => {
       timeInput.value = el.currentTarget.value;
