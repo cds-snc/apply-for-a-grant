@@ -4,6 +4,7 @@ const {
   getRouteByName,
   addViewPath,
   getViewData,
+  sendNotification,
   setFlashMessageContent,
 } = require('../../utils/index')
 

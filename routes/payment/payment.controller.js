@@ -1,6 +1,36 @@
 const path = require('path')
-const { getNextRoute, routeUtils } = require('./../../utils')
+const { 
+  validateRouteData,
+  getSessionData,
+  getNextRoute,
+  routeUtils,
+  sendNotification,
+  sendSMSNotification,
+  setFlashMessageContent,
+  getRouteByName,
+} = require('./../../utils')
+const { doRedirect } = require('./../../utils/route.helpers')
+const { checkErrors } = require('./../../utils/validate.helpers')
+const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
+
+const sendPaymentReceipt = async (req, res, next) => {
+  // need to get session
+  console.log('no session')
+  const session = getSessionData(req);
+  console.log("session")
+  if (session.notify_type === "Sms") {
+    sendSMSNotification({
+      phone: session.phone,
+      templateId: process.env.TEMPLATE_ID_SMS_PAYMENT_CONFIRM
+    });
+  } else {
+    await sendNotification({
+      email: session.email,
+      templateId: process.env.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM
+    });
+  }
+}
 
 module.exports = app => {
   const name = 'payment'
@@ -9,10 +39,19 @@ module.exports = app => {
   routeUtils.addViewPath(app, path.join(__dirname, './'))
 
   app
-    .get(route.path, (req, res) => {
+    .get(route.path, async (req, res) => {
+      const { Schema: step1 } = require('../step-1/schema.js')
+      const result = await validateRouteData(req, step1)
+      if (!result.status) {
+        setFlashMessageContent(req, result.errors)
+        return res.redirect(getRouteByName('step-1').path)
+      }
       res.render(name, { ...routeUtils.getViewData(req, {}), nextRoute: getNextRoute(name).path })
     })
     .post(route.path, [
-      ...routeUtils.getDefaultMiddleware({ schema: Schema, name: name }),
+      checkSchema(Schema),
+      checkErrors(name),
+      sendPaymentReceipt,
+      doRedirect(name),
     ])
 }
