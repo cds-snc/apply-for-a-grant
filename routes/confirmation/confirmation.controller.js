@@ -17,6 +17,9 @@ module.exports = app => {
     // ⚠️ experimental
     // validate data from previous step
     // see if we should be allowed to reach this step
+    const viewData = getViewData(req);
+    const date = new Date(1000*viewData.data.date);
+    const dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
     const { Schema } = require('../step-1/schema.js')
     const result = await validateRouteData(req, Schema)
     if (!result.status) {
@@ -24,6 +27,6 @@ module.exports = app => {
       return res.redirect(getRouteByName('step-1').path)
     }
 
-    res.render(name, getViewData(req))
+    res.render(name, getViewData(req, {dateString: dateString}))
   })
 }
