@@ -62,7 +62,7 @@ module.exports = app => {
     })
     .post(route.path, [
       checkSchema(Schema),
-      checkErrors(name), // here is req.session.formdata = { ...req.session.formdata, ...body }
+      checkErrors(name),
       saveToDb,
       doRedirect(name),
     ])
