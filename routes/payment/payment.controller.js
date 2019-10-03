@@ -16,20 +16,26 @@ const { Schema } = require('./schema.js')
 
 const sendPaymentReceipt = async (req, res, next) => {
   // need to get session
-  console.log('no session')
   const session = getSessionData(req);
-  console.log("session")
+  const options = { 
+    personalisation: {
+      "cardholder name": session.fullname,
+      phone: session.phone
+  }}
   if (session.notify_type === "Sms") {
     sendSMSNotification({
       phone: session.phone,
-      templateId: process.env.TEMPLATE_ID_SMS_PAYMENT_CONFIRM
+      templateId: process.env.TEMPLATE_ID_SMS_PAYMENT_CONFIRM,
+      options
     });
   } else {
-    await sendNotification({
+    sendNotification({
       email: session.email,
-      templateId: process.env.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM
+      templateId: process.env.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM,
+      options
     });
   }
+  return next()
 }
 
 module.exports = app => {
