@@ -76,5 +76,7 @@
   "form.ccv.desc": "e.g. 123",
   "Pay and Continue": "Pay and Continue",
   "form.date": "Appointment date",
-  "form.time": "Appointment time"
+  "form.time": "Appointment time",
+  "book.title": "Schedule your appointment",
+  "book.intro": "book.intro"
 }
