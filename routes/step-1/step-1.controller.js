@@ -5,11 +5,13 @@ const { checkErrors } = require('./../../utils/validate.helpers')
 const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
+const { saveSessionData } = require('./../../utils/session.helpers')
 
 const saveToDb = (req, res, next) => {
-  const randomId = Math.random().toString().split(".")[1].slice(0, 10);
+  req.body.userId = Math.random().toString().split(".")[1].slice(0, 10);
+  saveSessionData(req)
   const entry = new Submission({
-    id: randomId,
+    id: req.body.userId,
     fullname: req.body.fullname,
     email: req.body.email,
     phone_number: req.body.phone_number,
