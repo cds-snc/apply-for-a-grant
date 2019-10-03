@@ -21,7 +21,6 @@ const saveToDb = (req, res, next) => {
   if(sessionData.userId === "") {
     console.log("WTF")
   }
-  console.log(sessionData)
   const entry = new Submission({
     id: sessionData.userId,
     date: req.body.date.toString(),
