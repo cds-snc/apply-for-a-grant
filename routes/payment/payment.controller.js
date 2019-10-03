@@ -20,19 +20,19 @@ const sendPaymentReceipt = async (req, res, next) => {
   const options = { 
     personalisation: {
       "cardholder name": session.fullname,
-      phone: session.phone
+      phone: session.phone,
   }}
   if (session.notify_type === "Sms") {
     sendSMSNotification({
       phone: session.phone,
       templateId: process.env.TEMPLATE_ID_SMS_PAYMENT_CONFIRM,
-      options
+      options,
     });
   } else {
     sendNotification({
       email: session.email,
       templateId: process.env.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM,
-      options
+      options,
     });
   }
   return next()
