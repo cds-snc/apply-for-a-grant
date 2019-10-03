@@ -11,11 +11,12 @@
         <ul>
             <li>{{ __('form.fullname') }}:  <strong>{{ data.fullname }}</strong></li>
             <li>{{ __('form.email') }}: <strong>{{ data.email }}</strong></li>
-            <li>{{ __('form.send_notifications') }}: <strong>{{ data.send_notifications }}</strong></li>
-
-            {% if data.send_notifications == "Yes" %}
-                <li>{{ __('form.notify_by') }}: <strong>{{ data.notify_type }}</strong></li>
-            {% endif %}
+            <li>{{ __('form.phone_number') }}: <strong>{{ data.phone_number }}</strong></li>
+            <li>{{ __('form.address') }}: <strong>{{ data.address }}</strong></li>
+            <li>{{ __('form.grant_type') }}: <strong>{{ data.grant_type }}</strong></li>
+            <li>{{ __('form.notify_type') }}: <strong>{{ data.notify_type }}</strong></li>
+            <li>{{ __('form.date') }}: <strong>{{ dateString }}</strong></li>
+            <li>{{ __('form.time') }}: <strong>{{ data.time }}</strong></li>
 
         </ul>
     </div>

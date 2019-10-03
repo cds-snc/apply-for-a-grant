@@ -24,7 +24,9 @@ module.exports = app => {
       setFlashMessageContent(req, result.errors)
       return res.redirect(getRouteByName('step-1').path)
     }
-
-    res.render(name, getViewData(req))
+    var viewData = getViewData(req);
+    const date = new Date(1000*viewData.data.date);
+    viewData.dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
+    res.render(name, viewData)
   })
 }
