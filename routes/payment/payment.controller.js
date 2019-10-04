@@ -14,26 +14,48 @@ const { checkErrors } = require('./../../utils/validate.helpers')
 const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
 
-const sendPaymentReceipt = async (req, res, next) => {
+const sendConfirmations = async (req, res, next) => {
   // need to get session
   const session = getSessionData(req);
-  const options = { 
+  const date = new Date(1000*(+session.date));
+  const dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
+
+  const optionsPayment = { 
     personalisation: {
       "cardholder name": session.fullname,
-      phone: session.phone,
+  }}
+  console.log(optionsPayment)
+  const optionsApply = { 
+    personalisation: {
+      name: session.fullname,
+      address: session.address,
+      grant: session.grant_type,
+      date: dateString,
+      time: session.time,
+      link: "https://apply-for-grant-app.herokuapp.com/book-appointment",
   }}
   if (session.notify_type === "Sms") {
     sendSMSNotification({
       phone: session.phone,
       templateId: process.env.TEMPLATE_ID_SMS_PAYMENT_CONFIRM,
-      options,
+      optionsPayment,
     });
+    // sendSMSNotification({
+    //   phone: session.phone,
+    //   templateId: process.env.TEMPLATE_ID_SMS_APPLY_CONFIRM,
+    //   optionsApply,
+    // });
   } else {
     sendNotification({
       email: session.email,
       templateId: process.env.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM,
-      options,
+      optionsPayment,
     });
+    // sendNotification({
+    //   email: session.email,
+    //   templateId: process.env.TEMPLATE_ID_EMAIL_APPLY_CONFIRM,
+    //   optionsApply,
+    // });
   }
   return next()
 }
@@ -57,7 +79,7 @@ module.exports = app => {
     .post(route.path, [
       checkSchema(Schema),
       checkErrors(name),
-      sendPaymentReceipt,
+      sendConfirmations,
       doRedirect(name),
     ])
 }
