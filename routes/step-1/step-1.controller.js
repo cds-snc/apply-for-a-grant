@@ -1,21 +1,21 @@
 const path = require('path')
-const { routeUtils } = require('./../../utils')
-const { doRedirect } = require('./../../utils/route.helpers')
-const { checkErrors } = require('./../../utils/validate.helpers')
+const { routeUtils, doRedirect, checkErrors } = require('./../../utils')
 const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
 
 const saveToDb = (req, res, next) => {
-  const randomId = Math.random().toString().split(".")[1].slice(0, 10);
+  req.session.formdata.userId = Math.random().toString().split(".")[1].slice(0, 10);
+  var sessionData = routeUtils.getViewData(req).data;
+  
   const entry = new Submission({
-    id: randomId,
-    fullname: req.body.fullname,
-    email: req.body.email,
-    phone_number: req.body.phone_number,
-    address: req.body.address,
-    grant_type: req.body.grant_type,
-    notify_type: req.body.notify_type,
+    id: sessionData.userId,
+    fullname: sessionData.fullname,
+    email: sessionData.email,
+    phone_number: sessionData.phone_number,
+    address: sessionData.address,
+    grant_type: sessionData.grant_type,
+    notify_type: sessionData.notify_type,
   })
   entry.save()
   return next()

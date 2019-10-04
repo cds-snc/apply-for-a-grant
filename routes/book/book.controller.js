@@ -9,8 +9,30 @@
 */
 
 const path = require('path')
-const { routeUtils, getClientJs } = require('./../../utils')
+const { routeUtils, getClientJs, doRedirect, checkErrors } = require('./../../utils')
 const { Schema } = require('./schema.js')
+const { checkSchema } = require('express-validator')
+const { Submission } = require('../../db/model')
+
+const saveToDb = (req, res, next) => {
+  var sessionData = routeUtils.getViewData(req).data;
+  if(sessionData.userId === "") {
+    console.log("WTF")
+  }
+  const entry = new Submission({
+    id: sessionData.userId,
+    date: sessionData.date,
+    time: sessionData.time,
+    fullname: sessionData.fullname,
+    email: sessionData.email,
+    phone_number: sessionData.phone_number,
+    address: sessionData.address,
+    grant_type: sessionData.grant_type,
+    notify_type: sessionData.notify_type,
+  })
+  entry.save()
+  return next()
+}
 
 module.exports = app => {
   const name = 'book'
@@ -36,6 +58,9 @@ module.exports = app => {
       res.render(name, getData(req, name))
     })
     .post(route.path, [
-      ...routeUtils.getDefaultMiddleware({ schema: Schema, name: name }),
+      checkSchema(Schema),
+      checkErrors(name),
+      saveToDb,
+      doRedirect(name),
     ])
 }

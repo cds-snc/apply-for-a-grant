@@ -24,7 +24,7 @@ module.exports = app => {
       return res.redirect(getRouteByName('step-1').path)
     }
     var viewData = getViewData(req);
-    const date = new Date(1000*viewData.data.date);
+    const date = new Date(1000*(+viewData.data.date));
     viewData.dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
     res.render(name, viewData)
   })
