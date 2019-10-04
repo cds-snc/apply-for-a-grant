@@ -9,11 +9,9 @@
 */
 
 const path = require('path')
-const { routeUtils, getClientJs } = require('./../../utils')
+const { routeUtils, getClientJs, doRedirect, checkErrors } = require('./../../utils')
 const { Schema } = require('./schema.js')
 const { checkSchema } = require('express-validator')
-const { doRedirect } = require('./../../utils/route.helpers')
-const { checkErrors } = require('./../../utils/validate.helpers')
 const { Submission } = require('../../db/model')
 
 const saveToDb = (req, res, next) => {
@@ -23,8 +21,8 @@ const saveToDb = (req, res, next) => {
   }
   const entry = new Submission({
     id: sessionData.userId,
-    date: req.body.date.toString(),
-    time: req.body.time,
+    date: sessionData.date,
+    time: sessionData.time,
     fullname: sessionData.fullname,
     email: sessionData.email,
     phone_number: sessionData.phone_number,
