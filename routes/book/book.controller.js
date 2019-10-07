@@ -13,11 +13,14 @@ const { routeUtils, getClientJs, doRedirect, checkErrors } = require('./../../ut
 const { Schema } = require('./schema.js')
 const { checkSchema } = require('express-validator')
 const { Submission } = require('../../db/model')
+const url = require('url');
 
 const saveToDb = (req, res, next) => {
   var sessionData = routeUtils.getViewData(req).data;
   if("id" in req.query && req.query.id !== "") {
     sessionData.userId = req.query.id
+    // pull stuff from db
+    
   }
   const entry = new Submission({
     id: sessionData.userId,
@@ -32,6 +35,20 @@ const saveToDb = (req, res, next) => {
   })
   entry.save()
   return next()
+}
+
+const customRedirect = name => (req, res, next) => {
+  if("id" in req.query && req.query.id !== "") {
+    // appointment has been rescheduled
+    res.redirect(
+      url.format({
+        pathname: "/confirmation",
+        query: req.query,
+      })
+    )
+  }
+  // appointment is being scheduled for the 1st time 
+  doRedirect(name)
 }
 
 module.exports = app => {
@@ -61,6 +78,6 @@ module.exports = app => {
       checkSchema(Schema),
       checkErrors(name),
       saveToDb,
-      doRedirect(name),
+      customRedirect(name),
     ])
 }
