@@ -16,8 +16,8 @@ const { Submission } = require('../../db/model')
 
 const saveToDb = (req, res, next) => {
   var sessionData = routeUtils.getViewData(req).data;
-  if(sessionData.userId === "") {
-    console.log("WTF")
+  if("id" in req.query && req.query.id !== "") {
+    sessionData.userId = req.query.id
   }
   const entry = new Submission({
     id: sessionData.userId,
