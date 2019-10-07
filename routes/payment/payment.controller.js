@@ -38,6 +38,35 @@ const sendPaymentReceipt = async (req, res, next) => {
   return next()
 }
 
+const sendApplyConfirmation = async (req, res, next) => {
+  const session = getSessionData(req);
+  const date = new Date(1000*(+session.date));
+  const dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
+  const options = { 
+    personalisation: {
+      name: session.fullname,
+      address: session.address,
+      grant: session.grant_type,
+      date: dateString,
+      time: session.time,
+      link: "https://apply-for-grant-app.herokuapp.com/book-appointment",
+  }}
+  if (session.notify_type === "Sms") {
+    sendSMSNotification({
+      phone: session.phone,
+      templateId: process.env.TEMPLATE_ID_SMS_APPLY_CONFIRM,
+      options,
+    });
+  } else {
+    sendNotification({
+      email: session.email,
+      templateId: process.env.TEMPLATE_ID_EMAIL_APPLY_CONFIRM,
+      options,
+    });
+  }
+  return next()
+}
+
 module.exports = app => {
   const name = 'payment'
   const route = routeUtils.getRouteByName(name)
@@ -58,6 +87,7 @@ module.exports = app => {
       checkSchema(Schema),
       checkErrors(name),
       sendPaymentReceipt,
+      sendApplyConfirmation,
       doRedirect(name),
     ])
 }
