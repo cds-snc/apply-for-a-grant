@@ -15,13 +15,8 @@ const { checkSchema } = require('express-validator')
 const { Submission } = require('../../db/model')
 const url = require('url');
 
-const saveToDb = (req, res, next) => {
-  var sessionData = routeUtils.getViewData(req).data;
-  if("id" in req.query && req.query.id !== "") {
-    sessionData.userId = req.query.id
-    // pull stuff from db
-    
-  }
+
+const saveToDb = sessionData => {
   const entry = new Submission({
     id: sessionData.userId,
     date: sessionData.date,
@@ -34,7 +29,30 @@ const saveToDb = (req, res, next) => {
     notify_type: sessionData.notify_type,
   })
   entry.save()
-  return next()
+}
+
+const updateDb = (req, res, next) => {
+  var sessionData = routeUtils.getViewData(req).data;
+  if("id" in req.query && req.query.id !== "") {
+    // appointment has been rescheduled
+    sessionData.userId = req.query.id
+
+    Submission.get(sessionData.userId, (err, data) => {
+      if(err) {
+        console.log("error: " + err)
+      }
+      ["fullname", "email", "phone_number", "address", "grant_type", "notify_type"].forEach(k => {
+        // eslint-disable-next-line security/detect-object-injection
+        sessionData[k] = data[k]
+      })
+      console.log(sessionData)
+      saveToDb(sessionData)
+      next()
+    })
+  } else {
+    saveToDb(sessionData)
+    next()
+  }
 }
 
 const customRedirect = name => (req, res, next) => {
@@ -48,7 +66,7 @@ const customRedirect = name => (req, res, next) => {
     )
   }
   // appointment is being scheduled for the 1st time 
-  doRedirect(name)
+  doRedirect(name)(req, res, next)
 }
 
 module.exports = app => {
@@ -77,7 +95,7 @@ module.exports = app => {
     .post(route.path, [
       checkSchema(Schema),
       checkErrors(name),
-      saveToDb,
+      updateDb,
       customRedirect(name),
     ])
 }
