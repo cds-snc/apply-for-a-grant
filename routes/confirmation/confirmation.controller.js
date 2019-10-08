@@ -14,7 +14,8 @@ module.exports = (app, route) => {
       const result = await validateRouteData(req, Schema)
       if (!result.status) {
         setFlashMessageContent(req, result.errors)
-        route.doRedirect((req, res, next) => {return "step-1"})
+        route.doRedirect("step-1")(req, res)
+        return
       }
       var viewData = routeUtils.getViewData(req);
       const date = new Date(1000*(+viewData.data.date));

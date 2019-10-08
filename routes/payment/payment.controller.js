@@ -73,7 +73,8 @@ module.exports = (app, route) => {
       const result = await validateRouteData(req, Schema)
       if (!result.status) {
         setFlashMessageContent(req, result.errors)
-        route.doRedirect('step-1')
+        route.doRedirect("step-1")(req, res)
+        return
       }
         res.render(route.name, routeUtils.getViewData(req))
       })
