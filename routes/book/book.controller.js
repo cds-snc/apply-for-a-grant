@@ -1,8 +1,6 @@
-const { routeUtils, doRedirect, getClientJs } = require('./../../utils')
+const { routeUtils, getClientJs } = require('./../../utils')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
-const url = require('url');
-
 
 const saveToDb = sessionData => {
   const entry = new Submission({
@@ -43,50 +41,28 @@ const updateDb = async (req, res, next) => {
   }
 }
 
-const customRedirect = name => (req, res, next) => {
+const redirectTo = (req, res, next) => {
   if("id" in req.query && req.query.id !== "") {
-    // appointment has been rescheduled
-    res.redirect(
-      url.format({
-        pathname: "/confirmation",
-        query: req.query,
-      })
-    )
-    return
+    return "confirmation"
   }
-  // appointment is being scheduled for the 1st time 
-  doRedirect(name)(req, res, next)
+  return null
 }
 
 module.exports = (app, route) => {
 
-  // app
-  //   .get(route.path, (req, res) => {
-  //     global.getData = getData
-  //     res.render(name, getData(req, name))
-  //   })
-  //   .post(route.path, [
-  //     checkSchema(Schema),
-  //     checkErrors(name),
-  //     updateDb,
-  //     customRedirect(name),
-  //   ])
-
-    route.draw(app)
-      .get((req, res) => {
-        const jsPath = getClientJs(req, route.name)
-        const jsFiles = jsPath ? [jsPath] : false
-        res.render(route.name, routeUtils.getViewData(req, {
-              jsFiles: jsFiles,
-              month: 'October',
-              year: '2019',
-            }))
-      })
-      .post(
-        route.applySchema(Schema),
-        updateDb,
-        route.doRedirect()
-      )
-
-
+  route.draw(app)
+    .get((req, res) => {
+      const jsPath = getClientJs(req, route.name)
+      const jsFiles = jsPath ? [jsPath] : false
+      res.render(route.name, routeUtils.getViewData(req, {
+            jsFiles: jsFiles,
+            month: 'October',
+            year: '2019',
+          }))
+    })
+    .post(
+      route.applySchema(Schema),
+      updateDb,
+      route.doRedirect(redirectTo)
+    )
 }

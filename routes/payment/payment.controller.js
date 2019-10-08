@@ -33,7 +33,6 @@ const sendPaymentReceipt = async (req, res, next) => {
 }
 
 module.exports = (app, route) => {
-  console.log(route.table.get("book").path.en)
   const sendApplyConfirmation = async (req, res, next) => {
     const session = getSessionData(req);
     const date = new Date(1000*(+session.date));
