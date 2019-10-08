@@ -39,10 +39,10 @@ test('can catch errors using default middleware', async () => {
   // get an array of middleWare
   const middleWare = getDefaultMiddleware(options)
 
-  //run checkSchema()
+  // run checkSchema()
   await middleWare[0][0](req, res, next)
 
-  //run checkErrors()
+  // run checkErrors()
   const result = middleWare[1](req, res, next)
 
   const errors = errorArray2ErrorObject(validationResult(req))
