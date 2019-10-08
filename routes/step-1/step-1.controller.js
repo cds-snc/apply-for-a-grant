@@ -29,7 +29,7 @@ module.exports = (app, route) => {
     })
     .post(
       route.applySchema(Schema),
-      // saveToDb,
+      saveToDb,
       route.doRedirect()
     )
 }
