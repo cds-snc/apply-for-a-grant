@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-const {
-  getRouteWithIndexByName,
-  getRouteByName,
-  getPreviousRoute,
-  getNextRoute,
-  doRedirect,
-  getDefaultMiddleware,
-  routeUtils,
-  routeHasIndex,
-} = require('./index')
-
-const testRoutes = [
-  { name: 'start', path: '/start' },
-  { name: 'step-1', path: '/step-1' },
-  { name: 'confirmation', path: '/confirmation' },
-]
-
-describe('Routes', () => {
-  test('finds route index by name', () => {
-    const obj = getRouteWithIndexByName('step-1', testRoutes)
-    expect(obj.index).toEqual(1)
-  })
-
-  test('finds route path by name', () => {
-    const obj = getRouteByName('step-1', testRoutes)
-    expect(obj.path).toEqual('/step-1')
-=======
 const { makeRoutingTable } = require('./index')
 
 const testRoutes = makeRoutingTable(
@@ -52,21 +24,14 @@ describe('Routes', () => {
   test('prefixes paths', () => {
     expect(start.path.fr).toEqual('/fr/debut')
     expect(confirmation.path.en).toEqual('/en/confirmation')
->>>>>>> 452b896a038f648ebccc68df59e65fbf08cb8306
   })
 
   test('preserves custom keys', () => {
     expect(personal.otherKey).toEqual(42)
   })
 
-<<<<<<< HEAD
-  test('finds previous route path by name', () => {
-    const obj = getPreviousRoute('step-1', testRoutes)
-    expect(obj.path).toEqual('/start')
-=======
   test("return undefined for previous route that doesn't exist", () => {
     expect(start.prev).toBeUndefined()
->>>>>>> 452b896a038f648ebccc68df59e65fbf08cb8306
   })
 
   test('finds previous route', () => {
@@ -75,16 +40,10 @@ describe('Routes', () => {
     expect(confirmation.prev).toEqual(personal)
   })
 
-<<<<<<< HEAD
-  test('finds next route path by name', () => {
-    const obj = getNextRoute('step-1', testRoutes)
-    expect(obj.path).toEqual('/confirmation')
-=======
   test('finds next route', () => {
     expect(start.next).toEqual(personal)
     expect(personal.next).toEqual(confirmation)
     expect(confirmation.next).toBeUndefined()
->>>>>>> 452b896a038f648ebccc68df59e65fbf08cb8306
   })
 })
 
