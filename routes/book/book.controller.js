@@ -60,33 +60,42 @@ const customRedirect = name => (req, res, next) => {
   doRedirect(name)(req, res, next)
 }
 
-module.exports = app => {
-  const name = 'book'
-  const route = routeUtils.getRouteByName(name)
+module.exports = (app, route) => {
+  // routeUtils.addViewPath(app, path.join(__dirname, './'))
 
-  routeUtils.addViewPath(app, path.join(__dirname, './'))
+  // const getData = (req, name) => {
+  //   const jsPath = getClientJs(req, name)
+  //   const jsFiles = jsPath ? [jsPath] : false
+  //   const data = routeUtils.getViewData(req, {
+  //     jsFiles: jsFiles,
+  //     month: 'October',
+  //     year: '2019',
+  //   })
 
-  const getData = (req, name) => {
-    const jsPath = getClientJs(req, name)
-    const jsFiles = jsPath ? [jsPath] : false
-    const data = routeUtils.getViewData(req, {
-      jsFiles: jsFiles,
-      month: 'October',
-      year: '2019',
-    })
+  //   return data
+  // }
 
-    return data
-  }
+  // app
+  //   .get(route.path, (req, res) => {
+  //     global.getData = getData
+  //     res.render(name, getData(req, name))
+  //   })
+  //   .post(route.path, [
+  //     checkSchema(Schema),
+  //     checkErrors(name),
+  //     updateDb,
+  //     customRedirect(name),
+  //   ])
 
-  app
-    .get(route.path, (req, res) => {
-      global.getData = getData
-      res.render(name, getData(req, name))
-    })
-    .post(route.path, [
-      checkSchema(Schema),
-      checkErrors(name),
-      updateDb,
-      customRedirect(name),
-    ])
+    route.draw(app)
+      .get((req, res) => {
+        const jsFiles = ['js/file-input.js']
+        res.render(route.name, routeUtils.getViewData(req, jsFiles))
+      })
+      .post(
+        route.applySchema(Schema),
+        route.doRedirect()
+      )
+
+
 }

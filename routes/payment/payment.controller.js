@@ -69,27 +69,35 @@ const sendApplyConfirmation = async (req, res, next) => {
   return next()
 }
 
-module.exports = app => {
-  const name = 'payment'
-  const route = routeUtils.getRouteByName(name)
+module.exports = (app, route) => {
 
-  routeUtils.addViewPath(app, path.join(__dirname, './'))
+  // routeUtils.addViewPath(app, path.join(__dirname, './'))
 
-  app
-    .get(route.path, async (req, res) => {
-      const { Schema: step1 } = require('../step-1/schema.js')
-      const result = await validateRouteData(req, step1)
-      if (!result.status) {
-        setFlashMessageContent(req, result.errors)
-        return res.redirect(getRouteByName('step-1').path)
-      }
-      res.render(name, { ...routeUtils.getViewData(req, {}), nextRoute: getNextRoute(name).path })
-    })
-    .post(route.path, [
-      checkSchema(Schema),
-      checkErrors(name),
-      sendPaymentReceipt,
-      sendApplyConfirmation,
-      doRedirect(name),
-    ])
+  // app
+  //   .get(route.path, async (req, res) => {
+  //     const { Schema: step1 } = require('../step-1/schema.js')
+  //     const result = await validateRouteData(req, step1)
+  //     if (!result.status) {
+  //       setFlashMessageContent(req, result.errors)
+  //       return res.redirect(getRouteByName('step-1').path)
+  //     }
+  //     res.render(name, { ...routeUtils.getViewData(req, {}), nextRoute: getNextRoute(name).path })
+  //   })
+  //   .post(route.path, [
+  //     checkSchema(Schema),
+  //     checkErrors(name),
+  //     sendPaymentReceipt,
+  //     sendApplyConfirmation,
+  //     doRedirect(name),
+  //   ])
+
+    route.draw(app)
+      .get((req, res) => {
+        res.render(route.name, routeUtils.getViewData(req))
+      })
+      .post(
+        route.applySchema(Schema),
+        route.doRedirect()
+      )
+
 }

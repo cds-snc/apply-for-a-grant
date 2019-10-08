@@ -2,8 +2,9 @@
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/cds-snc/node-starter-app.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cds-snc/node-starter-app/alerts/) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/cds-snc/node-starter-app.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cds-snc/node-starter-app/context:javascript)
 
-
 **Demo:** https://cds-node-starter.herokuapp.com
+
+**Changelog:** [changelog.md](https://github.com/cds-snc/node-starter-app/blob/master/changelog.md)
 
 This repository provides a codebase that can be used to quickly build web pages or forms with a Government of Canada look-and-feel. It's setup with some sensible defaults and tech choices, such as:
 
@@ -62,43 +63,24 @@ const routes = [
 
 Note: Delete unused route(s) directories as needed.
 
-## Passing data to views
-
-Saved data is available via getSessionData(req) or getViewData(req)
-
-```javascript
-app.get(route.path, (req, res) => {
-  res.render(name, {... routeUtils.getViewData(req, {datePlaceholder: "DD/MM/YYYY"}), });
-});
-```
-
-```pug
- +textInput('form.passport_expiry', null, 'form.passport_expiry.desc')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry, placeholder=data.datePlaceholder)
-```
 
 ## Form step redirects
 
-Redirects are handled via doRedirect based on a `name` value (the name of the current route) sent via in the req.body. The doRedirect function will do a look up for the next route based on the routes config. 
+Redirects are handled via `route.doRedirect()`. The doRedirect function will do a look up for the next route based on the routes config.
+
+For cases where the redirect is not straight forward you can pass in a function, which can return a route name or a route object:
 
 ```javascript
-// your_route_name.controller post route
-app.post(route.path, [
-      ...routeUtils.getDefaultMiddleware({ schema: Schema, name: name })
-    ]);
-```
+// routes.config.js
+const routes = [
+  ...
+  { name: 'my-route', ..., skipTo: 'other-route' }
+  ...
+]
 
-For cases where the redirect is not straight forward you can handle manually.
-
-```javascript
-(req, res, next) => {
-  const confirm = req.body.confirm;
-  if (confirm === "Yes") {
-    const nextRoute = getNextRoute(name);
-    return res.redirect(nextRoute.path);
-  }
-
-  res.send("you said no");
-};
+// my-route.controller.js
+route.draw(app)
+  .post(..., route.doRedirect((req, res) => shouldSkip(req) ? route.skipTo : route.next))
 ```
 
 ## Form CSRF Protection
@@ -174,9 +156,9 @@ block content
 
 - Form validation is built into the form schema files and use [validator.js](https://github.com/validatorjs/validator.js#validators) to validate input
 
-## Templates
+## Template Engine
 
-- Templates currenty use Pug (formerly Jade). You can use whatever you like for a [template-engine](https://expressjs.com/en/resources/template-engines.html). There's even a server rendered [React](https://github.com/reactjs/express-react-views) engine. That said, it's bring your own layouts and helper files.
+[Nunjucks](https://mozilla.github.io/nunjucks/)
 
 ## Common View Helpers
 
@@ -185,18 +167,6 @@ See views/_includes
 ## Change configuration
 
 Don't like the way it's setup -> it's an Express server so do your thing `app.js`
-
-### Samples
-
-Radio Buttons
-```
-include /_includes/radios
-+radioButtons('card_type', {1:'Visa',2:'MasterCard'}, data.card_type, 'Name of card', errors)
-```
-Text Inputs
-```
-+textInput('form.fullname', null, 'form.fullname.desc')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.fullname)
-```
 
 ## CLI
 
@@ -229,10 +199,6 @@ Text Inputs
 
 - This project aims to allow you to hit the ground running. It's not meant to be a be all end all defacto solution.
 
-## Todo
-
-- Adding tests for sample routes
-- Adding more tests for utility functions
 
 ## Notes
 
