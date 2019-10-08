@@ -1,6 +1,4 @@
-const path = require('path')
-const { routeUtils, doRedirect, checkErrors } = require('./../../utils')
-const { checkSchema } = require('express-validator')
+const { routeUtils } = require('./../../utils')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
 
@@ -21,23 +19,17 @@ const saveToDb = (req, res, next) => {
   return next()
 }
 
-module.exports = app => {
-  const name = 'step-1'
-  const route = routeUtils.getRouteByName(name)
-
-  routeUtils.addViewPath(app, path.join(__dirname, './'))
-
-  app
-    .get(route.path, (req, res) => {
-      res.render(name, routeUtils.getViewData(req))
+module.exports = (app, route) => {
+  route.draw(app)
+    .get(async (req, res) => {
+      res.render(
+        route.name,
+        routeUtils.getViewData(req),
+      )
     })
     .post(
-      route.path,
-      [
-        checkSchema(Schema),
-        checkErrors(name),
-        saveToDb,
-        doRedirect(name),
-      ],
+      route.applySchema(Schema),
+      saveToDb,
+      route.doRedirect()
     )
 }

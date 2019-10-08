@@ -1,10 +1,6 @@
-const path = require('path')
-const { routeUtils, getClientJs, doRedirect, checkErrors } = require('./../../utils')
+const { routeUtils, getClientJs } = require('./../../utils')
 const { Schema } = require('./schema.js')
-const { checkSchema } = require('express-validator')
 const { Submission } = require('../../db/model')
-const url = require('url');
-
 
 const saveToDb = sessionData => {
   const entry = new Submission({
@@ -45,48 +41,28 @@ const updateDb = async (req, res, next) => {
   }
 }
 
-const customRedirect = name => (req, res, next) => {
+const redirectTo = (req, res, next) => {
   if("id" in req.query && req.query.id !== "") {
-    // appointment has been rescheduled
-    res.redirect(
-      url.format({
-        pathname: "/confirmation",
-        query: req.query,
-      })
-    )
-    return
+    return "confirmation"
   }
-  // appointment is being scheduled for the 1st time 
-  doRedirect(name)(req, res, next)
+  return null
 }
 
-module.exports = app => {
-  const name = 'book'
-  const route = routeUtils.getRouteByName(name)
+module.exports = (app, route) => {
 
-  routeUtils.addViewPath(app, path.join(__dirname, './'))
-
-  const getData = (req, name) => {
-    const jsPath = getClientJs(req, name)
-    const jsFiles = jsPath ? [jsPath] : false
-    const data = routeUtils.getViewData(req, {
-      jsFiles: jsFiles,
-      month: 'October',
-      year: '2019',
+  route.draw(app)
+    .get((req, res) => {
+      const jsPath = getClientJs(req, route.name)
+      const jsFiles = jsPath ? [jsPath] : false
+      res.render(route.name, routeUtils.getViewData(req, {
+            jsFiles: jsFiles,
+            month: 'October',
+            year: '2019',
+          }))
     })
-
-    return data
-  }
-
-  app
-    .get(route.path, (req, res) => {
-      global.getData = getData
-      res.render(name, getData(req, name))
-    })
-    .post(route.path, [
-      checkSchema(Schema),
-      checkErrors(name),
+    .post(
+      route.applySchema(Schema),
       updateDb,
-      customRedirect(name),
-    ])
+      route.doRedirect(redirectTo)
+    )
 }

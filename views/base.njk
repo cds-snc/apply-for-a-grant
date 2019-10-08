@@ -8,7 +8,7 @@
 {% from 'select.njk' import selectMenu as selectMenu with context %}
 
 <!DOCTYPE html>
-<html lang="{{ 'en' if getLocale() === 'fr' else 'en' }}">
+<html lang="{{ getLocale() }}">
     <head>
         <!-- Required meta tags-->
         <meta charset="utf-8">
