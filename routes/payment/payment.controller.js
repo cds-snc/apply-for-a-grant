@@ -1,4 +1,3 @@
-const path = require('path')
 const { 
   validateRouteData,
   getSessionData,
@@ -9,9 +8,6 @@ const {
   setFlashMessageContent,
   getRouteByName,
 } = require('./../../utils')
-const { doRedirect } = require('./../../utils/route.helpers')
-const { checkErrors } = require('./../../utils/validate.helpers')
-const { checkSchema } = require('express-validator')
 const { Schema } = require('./schema.js')
 
 const sendPaymentReceipt = async (req, res, next) => {
@@ -70,8 +66,6 @@ const sendApplyConfirmation = async (req, res, next) => {
 }
 
 module.exports = (app, route) => {
-
-  // routeUtils.addViewPath(app, path.join(__dirname, './'))
 
   // app
   //   .get(route.path, async (req, res) => {

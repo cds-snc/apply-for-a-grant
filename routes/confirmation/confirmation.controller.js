@@ -1,6 +1,6 @@
 const {
   validateRouteData,
-  getViewData,
+  routeUtils,
   setFlashMessageContent,
 } = require('../../utils/index')
 
@@ -18,8 +18,6 @@ module.exports = (app, route) => {
       res.render(route.name, routeUtils.getViewData(req))
 
   })
-
-  // addViewPath(app, path.join(__dirname, './'))
 
   // app.get(route.path, async (req, res) => {
   //   // ⚠️ experimental

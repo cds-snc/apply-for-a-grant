@@ -1,4 +1,3 @@
-const path = require('path')
 const { routeUtils } = require('./../../utils')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
@@ -21,8 +20,6 @@ const saveToDb = (req, res, next) => {
 }
 
 module.exports = (app, route) => {
-  // routeUtils.addViewPath(app, path.join(__dirname, './'))
-  
   route.draw(app)
     .get(async (req, res) => {
       res.render(

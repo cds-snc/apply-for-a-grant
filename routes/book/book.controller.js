@@ -1,7 +1,5 @@
-const path = require('path')
-const { routeUtils, getClientJs, doRedirect, checkErrors } = require('./../../utils')
+const { routeUtils, doRedirect, getClientJs } = require('./../../utils')
 const { Schema } = require('./schema.js')
-const { checkSchema } = require('express-validator')
 const { Submission } = require('../../db/model')
 const url = require('url');
 
@@ -61,19 +59,6 @@ const customRedirect = name => (req, res, next) => {
 }
 
 module.exports = (app, route) => {
-  // routeUtils.addViewPath(app, path.join(__dirname, './'))
-
-  // const getData = (req, name) => {
-  //   const jsPath = getClientJs(req, name)
-  //   const jsFiles = jsPath ? [jsPath] : false
-  //   const data = routeUtils.getViewData(req, {
-  //     jsFiles: jsFiles,
-  //     month: 'October',
-  //     year: '2019',
-  //   })
-
-  //   return data
-  // }
 
   // app
   //   .get(route.path, (req, res) => {
@@ -89,8 +74,13 @@ module.exports = (app, route) => {
 
     route.draw(app)
       .get((req, res) => {
-        const jsFiles = ['js/file-input.js']
-        res.render(route.name, routeUtils.getViewData(req, jsFiles))
+        const jsPath = getClientJs(req, route.name)
+        const jsFiles = jsPath ? [jsPath] : false
+        res.render(route.name, routeUtils.getViewData(req, {
+              jsFiles: jsFiles,
+              month: 'October',
+              year: '2019',
+            }))
       })
       .post(
         route.applySchema(Schema),
