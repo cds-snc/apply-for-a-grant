@@ -1,12 +1,10 @@
 const { 
   validateRouteData,
   getSessionData,
-  getNextRoute,
   routeUtils,
   sendNotification,
   sendSMSNotification,
   setFlashMessageContent,
-  getRouteByName,
 } = require('./../../utils')
 const { Schema } = require('./schema.js')
 
@@ -67,30 +65,23 @@ const sendApplyConfirmation = async (req, res, next) => {
 
 module.exports = (app, route) => {
 
-  // app
-  //   .get(route.path, async (req, res) => {
-  //     const { Schema: step1 } = require('../step-1/schema.js')
-  //     const result = await validateRouteData(req, step1)
-  //     if (!result.status) {
-  //       setFlashMessageContent(req, result.errors)
-  //       return res.redirect(getRouteByName('step-1').path)
-  //     }
-  //     res.render(name, { ...routeUtils.getViewData(req, {}), nextRoute: getNextRoute(name).path })
-  //   })
-  //   .post(route.path, [
-  //     checkSchema(Schema),
-  //     checkErrors(name),
-  //     sendPaymentReceipt,
-  //     sendApplyConfirmation,
-  //     doRedirect(name),
-  //   ])
-
     route.draw(app)
-      .get((req, res) => {
+      .get(async (req, res) => {
+      // ⚠️ experimental
+      // validate data from previous step
+      // see if we should be allowed to reach this step
+      const { Schema } = require('../step-1/schema.js')
+      const result = await validateRouteData(req, Schema)
+      if (!result.status) {
+        setFlashMessageContent(req, result.errors)
+  //     return res.redirect(getRouteByName('step-1').path)
+      }
         res.render(route.name, routeUtils.getViewData(req))
       })
       .post(
         route.applySchema(Schema),
+        sendPaymentReceipt,
+        sendApplyConfirmation,
         route.doRedirect()
       )
 
