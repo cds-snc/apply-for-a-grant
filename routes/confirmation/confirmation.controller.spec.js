@@ -24,6 +24,12 @@ jest.mock('../../utils/session.helpers', () => {
   }
 })
 
+test('Confirmation redirects when missing data', async () => {
+  const route = app.routes.get('confirmation')
+  const response = await request(app).get(route.path.en)
+  expect(response.statusCode).toBe(302)
+})
+
 test('Confirmation receives 200 when data exists', async () => {
   const route = app.routes.get('confirmation')
   const response = await request(app).get(route.path.en)
