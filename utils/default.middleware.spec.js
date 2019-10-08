@@ -47,6 +47,7 @@ test('can catch errors using default middleware', async () => {
 
   const errors = errorArray2ErrorObject(validationResult(req))
 
+  // eslint-disable-next-line no-prototype-builtins
   expect(result.hasOwnProperty('fullname')).toEqual(true)
   expect(errors.fullname.param).toEqual('fullname')
 })
