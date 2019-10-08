@@ -32,38 +32,38 @@ const sendPaymentReceipt = async (req, res, next) => {
   return next()
 }
 
-const sendApplyConfirmation = async (req, res, next) => {
-  const session = getSessionData(req);
-  const date = new Date(1000*(+session.date));
-  const dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
-  var rescheduleUrl = req.protocol + '://' + req.get('host') + "/book-appointment?id=" + session.userId
-  const options = { 
-    personalisation: {
-      name: session.fullname,
-      address: session.address,
-      grant: session.grant_type,
-      date: dateString,
-      time: session.time,
-      link: rescheduleUrl,
-  }}
-
-  if (session.notify_type === "Sms") {
-    sendSMSNotification({
-      phone: session.phone,
-      templateId: process.env.TEMPLATE_ID_SMS_APPLY_CONFIRM,
-      options,
-    });
-  } else {
-    sendNotification({
-      email: session.email,
-      templateId: process.env.TEMPLATE_ID_EMAIL_APPLY_CONFIRM,
-      options,
-    });
-  }
-  return next()
-}
-
 module.exports = (app, route) => {
+  console.log(route.table.get("book").path.en)
+  const sendApplyConfirmation = async (req, res, next) => {
+    const session = getSessionData(req);
+    const date = new Date(1000*(+session.date));
+    const dateString = date.toLocaleString("en-GB", {"year": "numeric", "month": "long", "day": "numeric"})
+    var rescheduleUrl = req.protocol + '://' + req.get('host') + route.table.get("book").path.en + "?id=" + session.userId
+    const options = { 
+      personalisation: {
+        name: session.fullname,
+        address: session.address,
+        grant: session.grant_type,
+        date: dateString,
+        time: session.time,
+        link: rescheduleUrl,
+    }}
+  
+    if (session.notify_type === "Sms") {
+      sendSMSNotification({
+        phone: session.phone,
+        templateId: process.env.TEMPLATE_ID_SMS_APPLY_CONFIRM,
+        options,
+      });
+    } else {
+      sendNotification({
+        email: session.email,
+        templateId: process.env.TEMPLATE_ID_EMAIL_APPLY_CONFIRM,
+        options,
+      });
+    }
+    return next()
+  }
 
     route.draw(app)
       .get(async (req, res) => {

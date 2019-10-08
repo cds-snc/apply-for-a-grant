@@ -84,7 +84,7 @@ module.exports = (app, route) => {
       })
       .post(
         route.applySchema(Schema),
-        // updateDb,
+        updateDb,
         route.doRedirect()
       )
 
