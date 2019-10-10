@@ -1,4 +1,4 @@
-const { routeUtils, getClientJs } = require('./../../utils')
+const { routeUtils, getClientJs, saveSessionData } = require('./../../utils')
 const { Schema } = require('./schema.js')
 const { Submission } = require('../../db/model')
 
@@ -21,14 +21,15 @@ const updateDb = async (req, res, next) => {
   var sessionData = routeUtils.getViewData(req).data;
   if("id" in req.query && req.query.id !== "") {
     // appointment has been rescheduled
-    sessionData.userId = req.query.id
+    req.body.userId = req.query.id
     try {
-      const result = await Submission.get(sessionData.userId)
+      const result = await Submission.get(req.query.id)
       const overwrite = ["fullname", "email", "phone_number", "address", "grant_type", "notify_type"]
       overwrite.forEach(k => {
-        // eslint-disable-next-line security/detect-object-injection
-        sessionData[k] = result[k]
+        req.body[k] = result[k]
       })
+
+      saveSessionData(req)
     } catch (err) {
       console.log(err.message)
     }
