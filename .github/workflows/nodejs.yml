@@ -28,6 +28,10 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         API_BASE_URL: ${{ secrets.API_BASE_URL }}
         API_KEY: ${{ secrets.API_KEY }}
+        TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM: ${{ secrets.TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM }}
+        TEMPLATE_ID_SMS_PAYMENT_CONFIRM: ${{ secrets.TEMPLATE_ID_SMS_PAYMENT_CONFIRM }}
+        TEMPLATE_ID_EMAIL_APPLY_CONFIRM: ${{ secrets.TEMPLATE_ID_EMAIL_APPLY_CONFIRM }}
+        TEMPLATE_ID_SMS_APPLY_CONFIRM: ${{ secrets.TEMPLATE_ID_SMS_APPLY_CONFIRM }}
     - name: npm lint
       run: |
         npm run lint

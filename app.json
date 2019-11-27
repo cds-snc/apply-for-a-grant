@@ -13,6 +13,18 @@
     },
     "API_KEY": {
       "required": true
+    },
+    "TEMPLATE_ID_EMAIL_PAYMENT_CONFIRM": {
+      "required": true
+    },
+    "TEMPLATE_ID_SMS_PAYMENT_CONFIRM": {
+      "required": true
+    },
+    "TEMPLATE_ID_EMAIL_APPLY_CONFIRM": {
+      "required": true
+    },
+    "TEMPLATE_ID_SMS_APPLY_CONFIRM": {
+      "required": true
     }
   },
   "formation": {},

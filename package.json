@@ -1,6 +1,6 @@
 {
   "name": "node-starter-app",
-  "version": "3.2.0",
+  "version": "5.0.0",
   "description": "",
   "author": "CDS",
   "license": "MIT",
@@ -14,12 +14,17 @@
     "aws-bootstrap": "node cdk/bootstrap.js",
     "aws-destroy": "node cdk/destroy.js",
     "dev": "npm run build && NODE_ENV=development nodemon ./bin/www",
-    "lint": "node_modules/eslint/bin/eslint.js config routes bin/www app.js",
+    "lint": "node_modules/eslint/bin/eslint.js config utils routes bin/www app.js",
     "prettier": "prettier --write '**/*.{ts,js,css,html}'",
     "start": "npm run build && NODE_ENV=production node ./bin/www",
     "test": "node node_modules/jest/bin/jest.js --coverage",
     "test:watch": "node node_modules/jest/bin/jest.js --watch",
     "postinstall": "patch-package"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint && npm test"
+    }
   },
   "dependencies": {
     "@cds-snc/webpack-starter": "cds-snc/webpack-starter",
@@ -47,13 +52,14 @@
   },
   "devDependencies": {
     "fse": "^4.0.1",
+    "husky": "^3.0.8",
     "rimraf": "^3.0.0",
     "acorn": "^7.1.0",
-    "@aws-cdk/aws-docdb": "1.10.0",
-    "@aws-cdk/aws-ec2": "1.10.0",
-    "@aws-cdk/aws-ecs": "1.10.0",
-    "@aws-cdk/aws-ecs-patterns": "1.10.0",
-    "@aws-cdk/core": "1.10.0",
+    "@aws-cdk/aws-docdb": "1.10.1",
+    "@aws-cdk/aws-ec2": "1.10.1",
+    "@aws-cdk/aws-ecs": "1.10.1",
+    "@aws-cdk/aws-ecs-patterns": "1.10.1",
+    "@aws-cdk/core": "1.10.1",
     "cheerio": "^1.0.0-rc.3",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.3.0",

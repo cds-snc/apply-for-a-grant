@@ -18,7 +18,7 @@ module.exports = {
   ...flashMessageHelpers,
   ...dataHelpers,
   ...loadHelpers,
-  ...notifyHelpers
+  ...notifyHelpers,
 }
 
 const { getRouteByName } = require('./route.helpers')

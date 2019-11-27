@@ -1,23 +1,35 @@
-/*
-
-@todo
-
-- pull saved info from database i.e. email or sms
- --- pull based on id + XXXXX in link sent from previous step
-- write date to hidden input
-- send confirmation
-*/
-
-const path = require('path')
-const { routeUtils, getClientJs } = require('./../../utils')
+const { routeUtils, getClientJs, saveSessionData } = require('./../../utils')
 const { Schema } = require('./schema.js')
+const { Submission } = require('../../db/model')
 
-module.exports = app => {
-  const name = 'book'
-  const route = routeUtils.getRouteByName(name)
+const saveToDb = sessionData => {
+  const entry = new Submission({
+    id: sessionData.userId,
+    date: sessionData.date,
+    time: sessionData.time,
+    fullname: sessionData.fullname,
+    email: sessionData.email,
+    phone_number: sessionData.phone_number,
+    address: sessionData.address,
+    grant_type: sessionData.grant_type,
+    notify_type: sessionData.notify_type,
+  })
+  entry.save()
+}
 
-  routeUtils.addViewPath(app, path.join(__dirname, './'))
+const updateDb = async (req, res, next) => {
+  var sessionData = routeUtils.getViewData(req).data;
+  if("id" in req.query && req.query.id !== "") {
+    // appointment has been rescheduled
+    req.body.userId = req.query.id
+    try {
+      const result = await Submission.get(req.query.id)
+      const overwrite = ["fullname", "email", "phone_number", "address", "grant_type", "notify_type"]
+      overwrite.forEach(k => {
+        req.body[k] = result[k]
+      })
 
+<<<<<<< HEAD
   const getData = (req, name) => {
     const jsPath = getClientJs(req, name)
     const jsFiles = jsPath ? [jsPath] : false
@@ -26,16 +38,43 @@ module.exports = app => {
       month: 'December',
       year: '2019',
     })
-
-    return data
+=======
+      saveSessionData(req)
+    } catch (err) {
+      console.log(err.message)
+    }
+    saveToDb(sessionData)
+    next()
+  } else {
+    // appointment is being scheduled for the 1st time 
+    saveToDb(sessionData)
+    next()
   }
+}
+>>>>>>> b9eddec0689d7ebb880c51c565961d34229b7445
 
-  app
-    .get(route.path, (req, res) => {
-      global.getData = getData
-      res.render(name, getData(req, name))
+const redirectTo = (req, res, next) => {
+  if("id" in req.query && req.query.id !== "") {
+    return "confirmation"
+  }
+  return null
+}
+
+module.exports = (app, route) => {
+
+  route.draw(app)
+    .get((req, res) => {
+      const jsPath = getClientJs(req, route.name)
+      const jsFiles = jsPath ? [jsPath] : false
+      res.render(route.name, routeUtils.getViewData(req, {
+            jsFiles: jsFiles,
+            month: 'October',
+            year: '2019',
+          }))
     })
-    .post(route.path, [
-      ...routeUtils.getDefaultMiddleware({ schema: Schema, name: name }),
-    ])
+    .post(
+      route.applySchema(Schema),
+      updateDb,
+      route.doRedirect(redirectTo)
+    )
 }

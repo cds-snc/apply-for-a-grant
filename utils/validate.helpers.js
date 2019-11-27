@@ -128,10 +128,10 @@ const validateRouteData = async (req, schema) => {
     },
   }
 
-  //run checkSchema()
+  // run checkSchema()
   await middleWare[0][0](validateReq, res, () => {})
 
-  //run checkErrors()
+  // run checkErrors()
   middleWare[1](validateReq, res, () => {})
 
   const errors = checkErrorsJSON(validateReq, res, () => {})
@@ -164,7 +164,7 @@ const checkErrorsJSON = (req, res, next) => {
 const hasData = (obj = {}, key = '') => {
   return key.split('.').every(x => {
     if (
-      typeof obj != 'object' ||
+      typeof obj !== 'object' ||
       obj === null ||
       !obj.hasOwnProperty(x) || // eslint-disable-line no-prototype-builtins
       obj[x] === null ||

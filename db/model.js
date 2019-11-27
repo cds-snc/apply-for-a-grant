@@ -8,6 +8,8 @@ const Submission = dynamoose.model('Submissions', {
   address: String,
   grant_type: String,
   notify_type: String,
+  date: String,
+  time: String,
 })
 
 module.exports = {

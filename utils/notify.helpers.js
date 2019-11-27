@@ -8,9 +8,9 @@ const key = process.env.API_KEY;
 const baseUrl = process.env.API_BASE_URL;
 
 const notifyClient =
-  process.env.NODE_ENV != "test" ? new NotifyClient(baseUrl, key) : false;
+  process.env.NODE_ENV !== "test" ? new NotifyClient(baseUrl, key) : false;
 
-const sendNotification = async (params = { email, templateId, options }) => {
+const sendNotification = async (params = { email: null, templateId: null, options: {} }) => {
   const { templateId, email, options } = params;
 
   if (!templateId || !email) {
@@ -27,7 +27,7 @@ const sendNotification = async (params = { email, templateId, options }) => {
   }
 };
 
-const sendSMSNotification = async (params = { phone, templateId, options }) => {
+const sendSMSNotification = async (params = { phone: null, templateId: null, options: {} }) => {
   const { templateId, phone, options } = params;
 
   if (!templateId || !phone) {
@@ -47,5 +47,5 @@ const sendSMSNotification = async (params = { phone, templateId, options }) => {
 module.exports = {
   sendNotification,
   notifyClient,
-  sendSMSNotification
+  sendSMSNotification,
 };
