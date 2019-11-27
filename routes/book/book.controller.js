@@ -29,16 +29,6 @@ const updateDb = async (req, res, next) => {
         req.body[k] = result[k]
       })
 
-<<<<<<< HEAD
-  const getData = (req, name) => {
-    const jsPath = getClientJs(req, name)
-    const jsFiles = jsPath ? [jsPath] : false
-    const data = routeUtils.getViewData(req, {
-      jsFiles: jsFiles,
-      month: 'December',
-      year: '2019',
-    })
-=======
       saveSessionData(req)
     } catch (err) {
       console.log(err.message)
@@ -51,7 +41,6 @@ const updateDb = async (req, res, next) => {
     next()
   }
 }
->>>>>>> b9eddec0689d7ebb880c51c565961d34229b7445
 
 const redirectTo = (req, res, next) => {
   if("id" in req.query && req.query.id !== "") {
@@ -68,7 +57,7 @@ module.exports = (app, route) => {
       const jsFiles = jsPath ? [jsPath] : false
       res.render(route.name, routeUtils.getViewData(req, {
             jsFiles: jsFiles,
-            month: 'October',
+            month: 'December',
             year: '2019',
           }))
     })
