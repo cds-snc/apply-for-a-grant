@@ -18,13 +18,20 @@ const saveToDb = sessionData => {
 }
 
 const updateDb = async (req, res, next) => {
-  var sessionData = routeUtils.getViewData(req).data;
-  if("id" in req.query && req.query.id !== "") {
+  var sessionData = routeUtils.getViewData(req).data
+  if ('id' in req.query && req.query.id !== '') {
     // appointment has been rescheduled
     req.body.userId = req.query.id
     try {
       const result = await Submission.get(req.query.id)
-      const overwrite = ["fullname", "email", "phone_number", "address", "grant_type", "notify_type"]
+      const overwrite = [
+        'fullname',
+        'email',
+        'phone_number',
+        'address',
+        'grant_type',
+        'notify_type',
+      ]
       overwrite.forEach(k => {
         req.body[k] = result[k]
       })
@@ -36,34 +43,34 @@ const updateDb = async (req, res, next) => {
     saveToDb(sessionData)
     next()
   } else {
-    // appointment is being scheduled for the 1st time 
+    // appointment is being scheduled for the 1st time
     saveToDb(sessionData)
     next()
   }
 }
 
 const redirectTo = (req, res, next) => {
-  if("id" in req.query && req.query.id !== "") {
-    return "confirmation"
+  if ('id' in req.query && req.query.id !== '') {
+    return 'confirmation'
   }
   return null
 }
 
 module.exports = (app, route) => {
-
-  route.draw(app)
+  route
+    .draw(app)
     .get((req, res) => {
       const jsPath = getClientJs(req, route.name)
       const jsFiles = jsPath ? [jsPath] : false
-      res.render(route.name, routeUtils.getViewData(req, {
-            jsFiles: jsFiles,
-            month: 'December',
-            year: '2019',
-          }))
+      console.log('jsFiles', jsFiles)
+      res.render(
+        route.name,
+        routeUtils.getViewData(req, {
+          jsFiles: jsFiles,
+          month: 'December',
+          year: '2019',
+        }),
+      )
     })
-    .post(
-      route.applySchema(Schema),
-      updateDb,
-      route.doRedirect(redirectTo)
-    )
+    .post(route.applySchema(Schema), updateDb, route.doRedirect(redirectTo))
 }

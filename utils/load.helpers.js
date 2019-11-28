@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 // note: there's test to look for a false response
-// but coverage isn't catching 
+// but coverage isn't catching
 
 const path = require('path')
 const { clientJsDir, getClientJsPath } = require('./url.helpers')
@@ -13,6 +13,8 @@ const getClientJs = (req, routeName = '', jsPath = '../public') => {
       __dirname,
       `${jsPath}${clientJsDir}_filelist.json`,
     )
+
+    console.log(fileList)
     const content = fs.readFileSync(fileList)
 
     const json = JSON.parse(content)
@@ -35,7 +37,7 @@ const getClientJs = (req, routeName = '', jsPath = '../public') => {
     return false
   } catch (e) {
     // console.log(e.message)
-    console.log(`${routeName}.js or filelist.json doesn't exist`)
+    console.log(`${routeName}.js or _filelist.json doesn't exist`)
     return false
   }
 }
