@@ -1,16 +1,18 @@
 const path = require('path')
 
 module.exports = (env, argv) => {
-  const { getConfig } = require('@cds-snc/webpack-starter')
-
-  return (config = getConfig({
+  const { getConfig } = require('@cdssnc/webpack-starter')
+  const config = getConfig({
+    mode: argv.mode,
     entry: {
       book: './src/book.js',
     },
     output: {
-      filename: '[name].[chunkhash].js',
-      path: path.resolve(__dirname, 'public/js/dist'),
+      filename: 'js/[name].[chunkhash].js',
+      path: path.resolve(__dirname, 'public/dist'),
     },
-    HtmlWebpackPluginOptions: {},
-  }))
+    stats: 'errors-only',
+  })
+
+  return config
 }

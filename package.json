@@ -27,7 +27,7 @@
     }
   },
   "dependencies": {
-    "@cds-snc/webpack-starter": "cds-snc/webpack-starter",
+    "@cdssnc/webpack-starter": "^2.0.2",
     "accessible-autocomplete": "^2.0.0",
     "commander": "^3.0.2",
     "compression": "^1.7.4",
@@ -50,6 +50,8 @@
     "notifications-node-client": "^4.6.0",
     "nunjucks": "^3.2.0",
     "request": "^2.88.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
