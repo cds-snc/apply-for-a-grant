@@ -40,7 +40,7 @@
     "dynamoose": "^1.11.1",
     "express": "~4.17.1",
     "express-session": "^1.16.2",
-    "express-validator": "^6.2.0",
+    "express-validator": "^6.4.0",
     "helmet": "^3.21.1",
     "i18n": "^0.8.3",
     "mini-css-extract-plugin": "^0.8.0",
